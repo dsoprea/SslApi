@@ -25,3 +25,4 @@ def new_csr(private_key_pem, name, passphrase=None):
     csr.sign(pkey, 'sha1')
 
     return csr.as_pem()
+

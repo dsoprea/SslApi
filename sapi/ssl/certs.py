@@ -23,7 +23,7 @@ def new_cert(ca_private_key_pem, csr_pem, duration, issuer_name, bits=2048,
 
 #    ca_rsa = M2Crypto.RSA.gen_key(bits, 65537, callback)
 
-    csr = M2Crypto.X509.load_request_string(csr_pem)
+    csr = sapi.ssl.utility.pem_csr_to_csr(csr_pem)
 
     public_key = csr.get_pubkey()
     name = csr.get_subject()

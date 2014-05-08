@@ -1,3 +1,5 @@
+import logging
+
 import web.webapi
 
 from sapi.views import ViewBase

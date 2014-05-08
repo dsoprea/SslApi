@@ -1,5 +1,10 @@
 Jinja2==2.7.2
 M2Crypto==0.22.3
 MarkupSafe==0.21
+cffi==0.8.2
+cryptography==0.4
+pyOpenSSL==0.14
+pycparser==2.10
+six==1.6.1
 web.py==0.37
 wsgiref==0.1.2

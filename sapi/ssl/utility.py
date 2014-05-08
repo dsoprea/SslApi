@@ -46,3 +46,8 @@ def pem_certificate_to_x509(cert_pem):
     _logger.debug("Converting PEM certificate to X509 object.")
 
     return M2Crypto.X509.load_cert_string(cert_pem)
+
+def pem_csr_to_csr(csr_pem):
+    _logger.debug("Converting PEM CSR to CSR object.")
+
+    return M2Crypto.X509.load_request_string(csr_pem)

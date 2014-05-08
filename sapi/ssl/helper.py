@@ -8,7 +8,7 @@ import sapi.ssl.certs
 
 _logger = logging.getLogger(__name__)
 
-def new_selfsigned_cert(issuer_name, passphrase, duration, bits=2048, 
+def new_selfsigned_cert(issuer_name, passphrase, validity, bits=2048, 
                         is_ca=False):
     _logger.debug("Creating self-signed certificate. IS_CA=[%s]", is_ca)
 
@@ -33,7 +33,7 @@ def new_selfsigned_cert(issuer_name, passphrase, duration, bits=2048,
     cert_pem = sapi.ssl.certs.new_cert(
                 private_key_pem, 
                 csr_pem, 
-                duration, 
+                validity, 
                 issuer_name, 
                 passphrase=passphrase,
                 is_ca=is_ca)

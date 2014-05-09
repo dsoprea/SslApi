@@ -9,6 +9,6 @@ DEFAULT_PATH = '/var/lib/ca'
 DEFAULT_VALIDITY_Y = 10
 
 try:
-    from sapi_custom_ca.config import *
+    from sapi_custom_ca.ca import *
 except ImportError:
     pass

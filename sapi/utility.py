@@ -17,29 +17,29 @@ def build_name_from_dict(**kwargs):
 
     return name
 
-def get_delta_from_validity_phrase(validity):
+def get_delta_from_validity_phrase(validity_phrase):
     def _translate_years_to_seconds(years):
         now_dt = datetime.datetime.now()
         now_future_dt = now_dt.replace(year=(now_dt.year + years))
         return (now_future_dt - now_dt).total_seconds()
 
     try:
-        validity = int(validity)
+        validity_y = int(validity_phrase)
     except ValueError:
-        if validity == '':
+        if validity_phrase == '':
             raise ValueError("Validity is empty.")
         
-        suffix = validity[-1].lower()
-        validity = int(validity[:-1])
+        suffix = validity_phrase[-1].lower()
+        validity = int(validity_phrase[:-1])
 
         if suffix == 'y':
-            validity = _translate_years_to_seconds(years)
+            validity_s = _translate_years_to_seconds(validity)
         elif suffix == 'd':
-            validity = validity * 86400
+            validity_s = validity * 86400
         elif suffix != 's':
             raise ValueError("Validity suffix [%s] not valid. Please use 's', "
                              "'d', or 'y'.")
     else:
-        validity = _translate_years_to_seconds(validity)
+        validity_s = _translate_years_to_seconds(validity_y)
 
-    return datetime.timedelta(seconds=validity)
+    return datetime.timedelta(seconds=validity_s)

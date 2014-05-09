@@ -14,6 +14,9 @@ app = web.application(
 
 def api_wrapper(handler):
     result = handler()
-    return json.dumps(result)
+    encoded = json.dumps(result)
+    return (encoded + "\n") \
+            if sapi.config.server.IS_DEBUG \
+            else encoded
 
 app.add_processor(api_wrapper)

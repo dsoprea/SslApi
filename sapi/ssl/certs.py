@@ -10,7 +10,7 @@ import sapi.ssl.utility
 
 _logger = logging.getLogger(__name__)
 
-def new_cert(ca_private_key_pem, csr_pem, duration, issuer_name, bits=2048,
+def new_cert(ca_private_key_pem, csr_pem, validity_td, issuer_name, bits=2048,
              is_ca=False, passphrase=None):
     _logger.debug("Creating certificate. IS_CA=[%s]", is_ca)
 
@@ -39,7 +39,7 @@ def new_cert(ca_private_key_pem, csr_pem, duration, issuer_name, bits=2048,
     notBefore.set_time(now_epoch)
 
     notAfter = M2Crypto.ASN1.ASN1_UTCTIME()
-    notAfter.set_time(now_epoch + long(duration.total_seconds()))
+    notAfter.set_time(now_epoch + long(validity_td.total_seconds()))
 
     cert.set_not_before(notBefore)
     cert.set_not_after(notAfter)

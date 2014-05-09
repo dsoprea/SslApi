@@ -13,7 +13,6 @@ import os
 
 import M2Crypto.X509
 
-import sapi.config.ca
 import sapi.config.log
 import sapi.utility
 import sapi.ssl.ca
@@ -37,27 +36,11 @@ parser.add_argument('validity',
                     help="The validity duration (can suffix 's' (seconds), "\
                          "'d' (days), 'y' (years, the default))")
 
-parser.add_argument('-c', '--ca_path',
-                    default=sapi.config.ca.DEFAULT_PATH,
-                    metavar='path',
-                    help='The path to install the identity files to')
-
-parser.add_argument('-p', '--passphrase',
-                    metavar='passphrase',
-                    help='The passphrase for the CA private-key (will be '\
-                         'prompted if not given)')
-
 args = parser.parse_args()
 
 # Validate/distill arguments.
 
 validity = sapi.utility.get_delta_from_validity_phrase(args.validity)
-
-if args.passphrase is None:
-    print("Please enter the passphrase:")
-    passphrase = raw_input()
-else:
-    passphrase = args.passphrase
 
 if args.csr_filepath is not None:
     with open(args.csr_filepath) as f:
@@ -69,7 +52,7 @@ else:
 
 _logger.debug("Signing request.")
 
-ca = sapi.ssl.ca.CA(args.ca_path, passphrase)
+ca = sapi.ssl.ca.ca_factory()
 cert_pem = ca.sign(csr_pem, validity)
 
 if args.out_filepath is not None:

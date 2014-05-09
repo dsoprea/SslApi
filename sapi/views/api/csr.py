@@ -1,5 +1,6 @@
 import logging
 import re
+import hashlib
 
 import web
 import web.webapi
@@ -28,7 +29,7 @@ class CsrApi(object):
 
         _logger.debug("Data:\n%s", csr_pem)
 
-        csr = M2Crypto.X509.load_request_string(csr_pem)
+        csr_m = M2Crypto.X509.load_request_string(csr_pem)
 #
 #        cert, rest = pyasn1.codec.der.decoder.decode(
 #                        csr.as_der(), 
@@ -43,9 +44,9 @@ class CsrApi(object):
 #
 #        return
 
-        csr = OpenSSL.crypto.load_certificate_request(
-                OpenSSL.crypto.FILETYPE_PEM, 
-                csr_pem)
+        csr_o = OpenSSL.crypto.load_certificate_request(
+                    OpenSSL.crypto.FILETYPE_PEM, 
+                    csr_pem)
 
         # Match for an extension like:
         #
@@ -55,7 +56,7 @@ class CsrApi(object):
         p = re.compile('^([a-zA-Z ]+:[^,]+, )+[a-zA-Z ]+:.+$')
         i = 0
         subject_alt_name_exts = []
-        for extension in csr.get_extensions():
+        for extension in csr_o.get_extensions():
             e = str(extension)
             if p.match(e) is None:
                 continue
@@ -64,18 +65,28 @@ class CsrApi(object):
 
             subject_alt_name_exts.append(parts)
 
+        # Calculate a hash that can be used to refer to this CSR with the 
+        # callbacks.
+        public_key_der = csr_m.get_pubkey().as_der()
+        public_key_hash = hashlib.md5(public_key_der).hexdigest()
+
+        csr_tuple = (csr_m, csr_o, csr_pem)
+
         try:
             validity_td = sapi.config.api.server.API_CSR_AUTHORIZE_HOOK(
-                            csr,
-                            subject_alt_name_exts)
+                            subject_alt_name_exts, 
+                            csr_tuple,
+                            public_key_hash)
         except sapi.exceptions.CsrSignError as e:
-            _logger.warn("Signing has been refused for this CSR: %s", e)
+            _logger.warn("Signing has been refused for CSR with public-key "
+                         "[%s]: %s", 
+                         public_key_hash, e)
             raise web.webapi.HTTPError('403 Signing not authorized.')
 
         ca = sapi.ssl.ca.ca_factory()
         cert_pem = ca.sign(csr_pem, validity_td)
 
         cert = sapi.ssl.utility.pem_certificate_to_x509(cert_pem)
-        sapi.config.api.server.API_CSR_POSTSIGN_HOOK(cert)
+        sapi.config.api.server.API_CSR_POSTSIGN_HOOK(cert, public_key_hash)
 
         return { 'signed_x509_pem': cert_pem }

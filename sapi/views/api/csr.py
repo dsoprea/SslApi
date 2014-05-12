@@ -13,7 +13,9 @@ import OpenSSL.crypto
 #import pyasn1_modules.rfc2459
 
 import sapi.config.api.server
+import sapi.config.ca
 import sapi.exceptions
+import sapi.ssl.utility
 
 _logger = logging.getLogger(__name__)
 
@@ -67,8 +69,8 @@ class CsrApi(object):
 
         # Calculate a hash that can be used to refer to this CSR with the 
         # callbacks.
-        public_key_der = csr_m.get_pubkey().as_der()
-        public_key_hash = hashlib.md5(public_key_der).hexdigest()
+        public_key_hash = sapi.ssl.utility.hash_from_public_key(
+                            csr_m.get_pubkey())
 
         csr_tuple = (csr_m, csr_o, csr_pem)
 
@@ -84,7 +86,14 @@ class CsrApi(object):
             raise web.webapi.HTTPError('403 Signing not authorized.')
 
         ca = sapi.ssl.ca.ca_factory()
-        cert_pem = ca.sign(csr_pem, validity_td)
+
+        def presign_hook_cb(cert, csr_pem):
+            sapi.config.ca.CSR_PRESIGN_HOOK(cert, public_key_hash)
+
+        cert_pem = ca.sign(
+                    csr_pem, 
+                    validity_td, 
+                    presign_hook_cb=presign_hook_cb)
 
         cert = sapi.ssl.utility.pem_certificate_to_x509(cert_pem)
         sapi.config.api.server.API_CSR_POSTSIGN_HOOK(cert, public_key_hash)

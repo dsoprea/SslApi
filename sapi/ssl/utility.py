@@ -1,4 +1,5 @@
 import logging
+import hashlib
 
 import M2Crypto.BIO
 import M2Crypto.RSA
@@ -51,3 +52,7 @@ def pem_csr_to_csr(csr_pem):
     _logger.debug("Converting PEM CSR to CSR object.")
 
     return M2Crypto.X509.load_request_string(csr_pem)
+
+def hash_from_public_key(public_key):
+    public_key_der = public_key.as_der()
+    return hashlib.sha1(public_key_der).hexdigest()

@@ -11,7 +11,7 @@ import sapi.ssl.utility
 _logger = logging.getLogger(__name__)
 
 def new_cert(ca_private_key_pem, csr_pem, validity_td, issuer_name, bits=2048,
-             is_ca=False, passphrase=None):
+             is_ca=False, passphrase=None, presign_hook_cb=None):
     _logger.debug("Creating certificate. IS_CA=[%s]", is_ca)
 
     ca_rsa = sapi.ssl.utility.pem_private_to_rsa(
@@ -33,7 +33,7 @@ def new_cert(ca_private_key_pem, csr_pem, validity_td, issuer_name, bits=2048,
     cert.set_version(2)
     cert.set_subject(name)
 
-    now_epoch = long(time.time()) + time.timezone
+    now_epoch = long(time.time())
 
     notBefore = M2Crypto.ASN1.ASN1_UTCTIME()
     notBefore.set_time(now_epoch)
@@ -53,6 +53,9 @@ def new_cert(ca_private_key_pem, csr_pem, validity_td, issuer_name, bits=2048,
 
     pkey = M2Crypto.EVP.PKey()
     pkey.assign_rsa(ca_rsa)
+
+    if presign_hook_cb is not None:
+        presign_hook_cb(cert, csr_pem)
  
     cert.sign(pkey, 'sha1')
     cert_pem = cert.as_pem()

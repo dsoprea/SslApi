@@ -10,12 +10,14 @@ import datetime
 import logging
 import argparse
 import os
+import hashlib
 
 import M2Crypto.X509
 
 import sapi.config.log
 import sapi.utility
 import sapi.ssl.ca
+import sapi.ssl.utility
 
 _logger = logging.getLogger(__name__)
 
@@ -53,7 +55,12 @@ else:
 _logger.debug("Signing request.")
 
 ca = sapi.ssl.ca.ca_factory()
-cert_pem = ca.sign(csr_pem, validity)
+
+def presign_hook_cb(cert, csr_pem):
+    public_key_hash = sapi.ssl.utility.hash_from_public_key(cert.get_pubkey())
+    sapi.config.ca.CSR_PRESIGN_HOOK(cert, public_key_hash)
+
+cert_pem = ca.sign(csr_pem, validity, presign_hook_cb=presign_hook_cb)
 
 if args.out_filepath is not None:
     with open(args.out_filepath, 'w') as f:

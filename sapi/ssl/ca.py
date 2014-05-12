@@ -80,7 +80,7 @@ class _CA(object):
         with open(pem_private_key_filepath) as f:
             self.__ca_private_key_pem = f.read()
 
-    def sign(self, csr_pem, validity_td):
+    def sign(self, csr_pem, validity_td, presign_hook_cb=None):
         _logger.debug("Signing request.")
 
         ca_cert = sapi.ssl.utility.pem_certificate_to_x509(self.__ca_cert_pem)
@@ -93,7 +93,8 @@ class _CA(object):
                 csr_pem, 
                 validity_td, 
                 ca_cert.get_issuer(),
-                passphrase=self.__passphrase)
+                passphrase=self.__passphrase,
+                presign_hook_cb=presign_hook_cb)
 
 #class CRL(object):
 #3 TODO(dustin): How do we use this data?

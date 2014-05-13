@@ -1,3 +1,3 @@
 #!/bin/sh
 
-PYTHONPATH=../resources/custom_example ../scripts/start_dev.py
+PYTHONPATH=../resources/custom_example ../scripts/start_dev

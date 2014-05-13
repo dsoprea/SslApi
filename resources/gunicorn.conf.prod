@@ -1,0 +1,10 @@
+user = 'www-data'
+group = 'www-data'
+
+debug = 'false'
+daemon = 'true'
+
+bind = 'unix:/tmp/deploy.gunicorn.sock'
+
+errorlog = '/tmp/deploy_ui.log'
+loglevel = 'debug'

@@ -16,12 +16,13 @@ import sapi.config.api.server
 import sapi.config.ca
 import sapi.exceptions
 import sapi.ssl.utility
+import sapi.ssl.ca
 
 _logger = logging.getLogger(__name__)
 
 
 class CsrApi(object):
-    def POST(self):
+    def PUT(self, client_hash):
         content_type = web.ctx.env['CONTENT_TYPE']
 
         if content_type != 'application/x-pem-file':
@@ -99,3 +100,6 @@ class CsrApi(object):
         sapi.config.api.server.API_CSR_POSTSIGN_HOOK(cert, public_key_hash)
 
         return { 'signed_x509_pem': cert_pem }
+
+    def GET(self, client_hash):
+        return { 'Noop': True }

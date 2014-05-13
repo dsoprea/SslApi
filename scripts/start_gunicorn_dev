@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd ..
+
+PYTHONPATH=.:$PYTHONPATH gunicorn -c resources/gunicorn.conf.dev sapi.wsgi:wsgi

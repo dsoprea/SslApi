@@ -8,8 +8,6 @@ BITS = 2048
 DEFAULT_PATH = '/var/lib/ca'
 DEFAULT_VALIDITY_Y = 10
 
-CSR_PRESIGN_HOOK = lambda certificate, public_key_hash: None
-
 try:
     from sapi_custom_ca.ca import *
 except ImportError:

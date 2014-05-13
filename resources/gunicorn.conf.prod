@@ -4,7 +4,7 @@ group = 'www-data'
 debug = 'false'
 daemon = 'true'
 
-bind = 'unix:/tmp/deploy.gunicorn.sock'
+bind = 'unix:/tmp/ssl_api.gunicorn.sock'
 
 errorlog = '/tmp/deploy_ui.log'
 loglevel = 'debug'

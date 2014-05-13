@@ -23,6 +23,8 @@ _logger = logging.getLogger(__name__)
 
 class CsrApi(object):
     def PUT(self, client_hash):
+        _logger.debug("Signing certificate for client: %s", client_hash)
+
         content_type = web.ctx.env['CONTENT_TYPE']
 
         if content_type != 'application/x-pem-file':
@@ -79,7 +81,8 @@ class CsrApi(object):
             validity_td = sapi.config.api.server.API_CSR_AUTHORIZE_HOOK(
                             subject_alt_name_exts, 
                             csr_tuple,
-                            public_key_hash)
+                            public_key_hash,
+                            client_hash)
         except sapi.exceptions.CsrSignError as e:
             _logger.warn("Signing has been refused for CSR with public-key "
                          "[%s]: %s", 
@@ -89,7 +92,8 @@ class CsrApi(object):
         ca = sapi.ssl.ca.ca_factory()
 
         def presign_hook_cb(cert, csr_pem):
-            sapi.config.ca.CSR_PRESIGN_HOOK(cert, public_key_hash)
+            sapi.config.api.server.API_CSR_PRESIGN_HOOK(
+                cert, public_key_hash, client_hash)
 
         cert_pem = ca.sign(
                     csr_pem, 
@@ -97,9 +101,10 @@ class CsrApi(object):
                     presign_hook_cb=presign_hook_cb)
 
         cert = sapi.ssl.utility.pem_certificate_to_x509(cert_pem)
-        sapi.config.api.server.API_CSR_POSTSIGN_HOOK(cert, public_key_hash)
+        sapi.config.api.server.API_CSR_POSTSIGN_HOOK(
+            cert, public_key_hash, client_hash)
 
         return { 'signed_x509_pem': cert_pem }
 
-    def GET(self, client_hash):
-        return { 'Noop': True }
+#    def GET(self, client_hash):
+#        return { }

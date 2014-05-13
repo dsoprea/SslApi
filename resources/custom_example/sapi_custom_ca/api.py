@@ -6,10 +6,13 @@ _logger = logging.getLogger(__name__)
 # An example to show how to store information between callbacks.
 _signed_cache = {}
 
-def _api_csr_authorize_hook(subject_alt_name_exts, csr_tuple, public_key_hash):
+def _api_csr_authorize_hook(subject_alt_name_exts, csr_tuple, public_key_hash,
+                            client_hash):
     """This will be called whenever a CSR has been submitted for signing.
     As a convenience, the subjectAlternativeName extension data has already 
     been retrieved, parsed, and passed as an argument.
+
+    'client_hash' is the hash provided to the signing API call in the URL.
 
     If this CSR either violates your policies or you can't extract any
     identifying information that might be required in a

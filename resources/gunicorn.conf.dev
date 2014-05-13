@@ -1,7 +1,7 @@
 debug = 'true'
 daemon = 'false'
 
-bind = '0.0.0.0:8000'
+bind = 'unix:/tmp/ssl_api.gunicorn.sock'
 
 errorlog = '-'
 loglevel = 'info' #debug'

@@ -1,8 +1,8 @@
 import logging
 
 logger = logging.getLogger()
-#logger.setLevel(logging.DEBUG)
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
+#logger.setLevel(logging.INFO)
 
 ch = logging.StreamHandler()
 

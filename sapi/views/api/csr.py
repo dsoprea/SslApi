@@ -32,22 +32,7 @@ class CsrApi(object):
 
         csr_pem = web.data()
 
-        _logger.debug("Data:\n%s", csr_pem)
-
         csr_m = M2Crypto.X509.load_request_string(csr_pem)
-#
-#        cert, rest = pyasn1.codec.der.decoder.decode(
-#                        csr.as_der(), 
-#                        asn1Spec=pyasn1_modules.rfc2314.CertificationRequest())
-#
-#        extension_request_raw = cert[0][3][0]
-#        er, rest = pyasn1.codec.der.decoder.decode(
-#                        cert, 
-#                        asn1Spec=pyasn1_modules.rfc2459.Extensions())
-#
-##        _logger.debug(extension_request)
-#
-#        return
 
         csr_o = OpenSSL.crypto.load_certificate_request(
                     OpenSSL.crypto.FILETYPE_PEM, 
@@ -105,6 +90,3 @@ class CsrApi(object):
             cert, public_key_hash, client_hash)
 
         return { 'signed_x509_pem': cert_pem }
-
-#    def GET(self, client_hash):
-#        return { }

@@ -59,7 +59,7 @@ class _CA(object):
     """
 
     def __init__(self):
-        _logger.debug("Loading CA: %s", sapi.config.ca.DEFAULT_PATH)
+        _logger.debug("Loading CA: %s", sapi.config.ca.CA_PATH)
 
         self.__passphrase = _get_passphrase()
 
@@ -67,14 +67,14 @@ class _CA(object):
 #               RSA object here so that we don't keep having to reprocess the 
 #               PEM.
         pem_cert_filepath = os.path.join(
-                                sapi.config.ca.DEFAULT_PATH, 
+                                sapi.config.ca.CA_PATH, 
                                 sapi.config.ca.FILENAME_PEM_CERTIFICATE)
 
         with open(pem_cert_filepath) as f:
             self.__ca_cert_pem = f.read()
 
         pem_private_key_filepath = os.path.join(
-                                    sapi.config.ca.DEFAULT_PATH, 
+                                    sapi.config.ca.CA_PATH, 
                                     sapi.config.ca.FILENAME_PEM_PRIVATE_KEY)
 
         with open(pem_private_key_filepath) as f:
@@ -134,15 +134,15 @@ def write_identity(ca_private_key_pem, ca_public_key_pem, ca_cert_pem):
     """Write identity files."""
 
     private_key_filepath = os.path.join(
-                            sapi.config.ca.DEFAULT_PATH, 
+                            sapi.config.ca.CA_PATH, 
                             sapi.config.ca.FILENAME_PEM_PRIVATE_KEY)
 
     public_key_filepath = os.path.join(
-                            sapi.config.ca.DEFAULT_PATH, 
+                            sapi.config.ca.CA_PATH, 
                             sapi.config.ca.FILENAME_PEM_PUBLIC_KEY)
 
     certificate_filepath = os.path.join(
-                            sapi.config.ca.DEFAULT_PATH, 
+                            sapi.config.ca.CA_PATH, 
                             sapi.config.ca.FILENAME_PEM_CERTIFICATE)
 
     if os.path.exists(private_key_filepath) is True or \

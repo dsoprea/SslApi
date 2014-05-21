@@ -1,1 +1,10 @@
-ca_create_identity.py
+#!/usr/bin/env python2.7
+
+import sys
+import os.path
+
+root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, root_path)
+
+import sapi.script_logic.ca_create_identity
+sapi.script_logic.ca_create_identity.start()

@@ -2,4 +2,4 @@
 
 cd ..
 
-PYTHONPATH=.:$PYTHONPATH gunicorn -c resources/gunicorn.conf.prod sapi.wsgi:wsgi
+PYTHONPATH=.:$PYTHONPATH gunicorn -c sapi/resources/gunicorn.conf.prod sapi.wsgi:wsgi

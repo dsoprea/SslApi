@@ -5,4 +5,4 @@ if [ "$1" == "" ]; then
     exit 1
 fi
 
-PYTHONPATH=../resources/custom_example ../scripts/ca_sign_subordinate -f $1 1y
+PYTHONPATH=../sapi/resources/custom_example ../scripts/ca_sign_subordinate -f $1 1y

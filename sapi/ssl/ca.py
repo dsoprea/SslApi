@@ -16,6 +16,7 @@ import sapi.exceptions
 
 _CA_PASSPHRASE_CTX_READ = 'read'
 _CA_PASSPHRASE_CTX_WRITE = 'write'
+_CA_PASSPHRASE_ENV_NAME = 'CA_PASSPHRASE'
 
 _logger = logging.getLogger(__name__)
 
@@ -25,11 +26,13 @@ def _get_passphrase():
     global _passphrase
 
     if _passphrase is None:
-        _logger.debug("We need to ask the user for the CA passphrase.")
-
         try:
-            passphrase = os.environ['CA_PASSPHRASE']
+            passphrase = os.environ[_CA_PASSPHRASE_ENV_NAME]
         except KeyError:
+            _logger.debug("We need to ask the user for the CA passphrase (not "
+                          "available from the environment: [%s]).", 
+                          _CA_PASSPHRASE_ENV_NAME)
+
             sys.stderr.write('\n')
 
             prompt = "CA passphrase for key: "
@@ -45,6 +48,9 @@ def _get_passphrase():
                 raise ValueError("The passphrases don't agree.")
 
             sys.stderr.write('\n')
+        else:
+            _logger.debug("Passphrase retrieved from the environment: [%s]", 
+                          _CA_PASSPHRASE_ENV_NAME)
 
         _passphrase = passphrase
     else:

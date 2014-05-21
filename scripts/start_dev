@@ -9,15 +9,5 @@ sys.path.insert(0, root_path)
 import os
 os.chdir(root_path)
 
-#import sapi.config.log
-import sapi.app.main
-import sapi.ssl.ca
-
-# Induce the CA passphrase to be asked and remembered.
-sapi.ssl.ca.ca_factory()
-
-def start():
-    sapi.app.main.app.run()
-
-if __name__ == '__main__':
-    start()
+import sapi.script_logic.start_dev
+sapi.script_logic.start_dev.start()

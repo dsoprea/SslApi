@@ -23,4 +23,5 @@ API_CSR_POSTSIGN_HOOK = lambda \
                             public_key_hash, \
                             client_hash: None
 
+_logger.debug("Importing custom API hooks (required).")
 from sapi_custom_ca.api import *

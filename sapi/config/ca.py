@@ -15,10 +15,14 @@ CA_PATH = os.environ.get('SAPI_CA_PATH', '/var/lib/ca')
 
 DEFAULT_VALIDITY_Y = 10
 
+_logger.debug("Importing custom API hooks (CA, optional).")
+
 try:
     from sapi_custom_ca.ca import *
 except ImportError:
-    pass
+    _logger.debug("Custom functionality not found (CA).")
+else:
+    _logger.debug("Custom functionality found (CA).")
 
 _logger.info("CA PATH: %s", CA_PATH)
 

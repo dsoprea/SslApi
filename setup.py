@@ -1,23 +1,33 @@
 from setuptools import setup, find_packages
 
 setup(name='ssl_api',
-      version='0.2.0',
+      version='0.2.1',
       description="A certificate-authority API.",
       long_description="",
       classifiers=[],
       keywords='ssl openssl ca certificate authority api',
       author='Dustin Oprea',
       author_email='myselfasunder@gmail.com',
-      url='',
+      url='https://github.com/dsoprea/SslApi',
       license='GPL 2',
       packages=find_packages(exclude=['tests']),
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          'M2Crypto'
+            'Jinja2==2.7.2',
+            'M2Crypto==0.22.3',
+            'MarkupSafe==0.21',
+            'cffi==0.8.2',
+            'cryptography==0.4',
+            'pyOpenSSL==0.14',
+            'pyasn1==0.1.7',
+            'pyasn1-modules==0.0.5',
+            'pycparser==2.10',
+            'six==1.6.1',
+            'web.py==0.37',
       ],
       scripts=[
-            'create_ca_identity',
-            'create_subordinate',
+            'scripts/ca_create_identity',
+            'scripts/ca_sign_subordinate',
       ]
 )

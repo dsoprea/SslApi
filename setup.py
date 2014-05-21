@@ -10,7 +10,7 @@ setup(name='ssl_api',
       author_email='myselfasunder@gmail.com',
       url='https://github.com/dsoprea/SslApi',
       license='GPL 2',
-      packages=find_packages(exclude=['tests']),
+      packages=find_packages(exclude=['dev']),
       include_package_data=True,
       zip_safe=False,
       install_requires=[

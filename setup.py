@@ -29,7 +29,6 @@ setup(name='ssl_api',
       scripts=[
             'scripts/ca_create_identity',
             'scripts/ca_sign_subordinate',
-            'scripts/ca_get_path',
       ],
       package_data={
             'sapi': ['resources/gunicorn.conf.*'],

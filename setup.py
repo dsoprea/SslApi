@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='ssl_api',
-      version='0.2.7',
+      version='0.2.8',
       description="A certificate-authority API.",
       long_description="",
       classifiers=[],
@@ -29,6 +29,9 @@ setup(name='ssl_api',
       scripts=[
             'scripts/ca_create_identity',
             'scripts/ca_sign_subordinate',
+            'scripts/ca_start_dev',
+            'scripts/ca_start_gunicorn_dev',
+            'scripts/ca_start_gunicorn_prod',
       ],
       package_data={
             'sapi': ['resources/gunicorn.conf.*'],

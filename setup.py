@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='ssl_api',
-      version='0.2.8',
+      version='0.2.9',
       description="A certificate-authority API.",
       long_description="",
       classifiers=[],

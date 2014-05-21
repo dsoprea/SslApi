@@ -1,3 +1,3 @@
 #!/bin/sh
 
-PYTHONPATH=../resources/custom_example ../scripts/start_dev
+PYTHONPATH=../sapi/resources/custom_example ../scripts/start_dev

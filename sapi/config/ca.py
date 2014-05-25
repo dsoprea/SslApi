@@ -1,6 +1,8 @@
 import os
 import os.path
 import logging
+import hashlib
+import time
 
 _logger = logging.getLogger(__name__)
 
@@ -16,6 +18,12 @@ CA_PATH = os.environ.get('SAPI_CA_PATH', '/var/lib/ca')
 DEFAULT_VALIDITY_Y = 10
 
 _logger.debug("Importing custom API hooks (CA, optional).")
+
+# Technically, this should be unique to the CA. SHA1 will be sufficient as a 
+# default implementation.
+SERIAL_NUMBER_GENERATOR_CB = lambda: \
+                                hashlib.sha1(str(time.time())).\
+                                    hexdigest()
 
 try:
     from sapi_custom_ca.ca import *

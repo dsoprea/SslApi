@@ -7,6 +7,8 @@ import M2Crypto.ASN1
 import M2Crypto.RSA
 
 import sapi.ssl.utility
+import sapi.config.ca
+import sapi.normal
 
 _logger = logging.getLogger(__name__)
 
@@ -29,8 +31,13 @@ def new_cert(ca_private_key_pem, csr_pem, validity_td, issuer_name, bits=2048,
     name = csr.get_subject()
 
     cert = M2Crypto.X509.X509()
-    cert.set_serial_number(1)
-    cert.set_version(2)
+
+    sn = sapi.config.ca.SERIAL_NUMBER_GENERATOR_CB()
+    if issubclass(sn.__class__, sapi.normal.basestring_) is True:
+        sn = int(sn, 16)
+
+    cert.set_serial_number(sn)
+    cert.set_version(csr.get_version())
     cert.set_subject(name)
 
     now_epoch = long(time.time())

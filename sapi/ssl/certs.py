@@ -37,7 +37,13 @@ def new_cert(ca_private_key_pem, csr_pem, validity_td, issuer_name, bits=2048,
         sn = int(sn, 16)
 
     cert.set_serial_number(sn)
-    cert.set_version(csr.get_version())
+    
+    new_version = csr.get_version() + 1
+    cert.set_version(new_version)
+
+    _logger.debug("New certificate has SN [%s] and version (%d).", 
+                  hex(sn), new_version)
+
     cert.set_subject(name)
 
     now_epoch = long(time.time())

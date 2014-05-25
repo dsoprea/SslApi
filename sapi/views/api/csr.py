@@ -1,6 +1,7 @@
 import logging
 import re
 import hashlib
+import collections
 
 import web
 import web.webapi
@@ -60,7 +61,11 @@ class CsrApi(object):
         public_key_hash = sapi.ssl.utility.hash_from_public_key(
                             csr_m.get_pubkey())
 
-        csr_tuple = (csr_m, csr_o, csr_pem)
+        csr_t = collections.namedtuple(
+                    'CsrTuple', 
+                    ['csr_m', 'csr_o', 'csr_pem'])
+
+        csr_tuple = csr_t(csr_m, csr_o, csr_pem)
 
         try:
             validity_td = sapi.config.api.server.API_CSR_AUTHORIZE_HOOK(
@@ -77,8 +82,8 @@ class CsrApi(object):
         ca = sapi.ssl.ca.ca_factory()
 
         def presign_hook_cb(cert, csr_pem):
-            sapi.config.api.server.API_CSR_PRESIGN_HOOK(
-                cert, public_key_hash, client_hash)
+            csr_pem = sapi.config.api.server.API_CSR_PRESIGN_HOOK(
+                        csr_tuple, cert, public_key_hash, client_hash)
 
         cert_pem = ca.sign(
                     csr_pem, 

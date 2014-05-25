@@ -10,11 +10,13 @@ API_CSR_AUTHORIZE_HOOK = lambda \
                             public_key_hash, \
                             client_hash: None
 
-# Called with the certificate before it's signed, to add extensions or such.
+# Called with the certificate before it's signed, to add extensions or such. 
+# Must return a CSR PEM.
 API_CSR_PRESIGN_HOOK = lambda \
+                            csr_tuple, \
                             certificate, \
                             public_key_hash, \
-                            client_hash: None
+                            client_hash: csr_tuple.csr_pem
 
 # Called with the certificate after it's signed, perhaps to store the 
 # certificate's fingerprint.

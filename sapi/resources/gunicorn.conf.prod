@@ -6,5 +6,5 @@ daemon = 'true'
 
 bind = 'unix:/tmp/ssl_api.gunicorn.sock'
 
-errorlog = '/tmp/deploy_ui.log'
+errorlog = '/var/log/openpeak/app_deploy_ca.log'
 loglevel = 'debug'

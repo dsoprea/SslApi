@@ -16,6 +16,7 @@ BITS = 2048
 CA_PATH = os.environ.get('SAPI_CA_PATH', '/var/lib/ca')
 
 DEFAULT_VALIDITY_Y = 10
+DEFAULT_SUBORDINATE_VALIDITY_Y = 1
 
 _logger.debug("Importing custom API hooks (CA, optional).")
 

@@ -67,12 +67,13 @@ class CsrApi(object):
 
         csr_tuple = csr_t(csr_m, csr_o, csr_pem)
 
+        hooks = sapi.config.api.server.API_CSR_HOOKS_FACTORY(
+                    client_hash, 
+                    public_key_hash, 
+                    csr_tuple)
+
         try:
-            validity_td = sapi.config.api.server.API_CSR_AUTHORIZE_HOOK(
-                            subject_alt_name_exts, 
-                            csr_tuple,
-                            public_key_hash,
-                            client_hash)
+            validity_td = hooks.authorize(subject_alt_name_exts)
         except sapi.exceptions.CsrSignError as e:
             _logger.warn("Signing has been refused for CSR with public-key "
                          "[%s]: %s", 
@@ -82,8 +83,7 @@ class CsrApi(object):
         ca = sapi.ssl.ca.ca_factory()
 
         def presign_hook_cb(cert, csr_pem):
-            csr_pem = sapi.config.api.server.API_CSR_PRESIGN_HOOK(
-                        csr_tuple, cert, public_key_hash, client_hash)
+            hooks.presign(cert)
 
         cert_pem = ca.sign(
                     csr_pem, 
@@ -91,7 +91,6 @@ class CsrApi(object):
                     presign_hook_cb=presign_hook_cb)
 
         cert = sapi.ssl.utility.pem_certificate_to_x509(cert_pem)
-        sapi.config.api.server.API_CSR_POSTSIGN_HOOK(
-            cert, public_key_hash, client_hash)
+        hooks.postsign(cert)
 
         return { 'signed_x509_pem': cert_pem }

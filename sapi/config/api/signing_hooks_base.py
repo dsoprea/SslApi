@@ -12,6 +12,8 @@ class SigningHooksBase(object):
         self.__public_key_hash = public_key_hash
         self.__csr_tuple = csr_tuple
 
+        _logger.debug("Initializing default CSR hooks.")
+
     def authorize(self, subject_alt_name_exts):
         """At the top of the request, perhaps to verify the caller by the 
         client-hash or the information in the CSR. Return the validity length

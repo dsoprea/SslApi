@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+
+import sys
+import os.path
+
+dev_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
+sys.path.insert(0, dev_path)
+
+import os
+import os.path
+import sapi
+
+app_path = os.path.abspath(os.path.join(os.path.dirname(sapi.__file__), '..'))
+os.chdir(app_path)
+
+import sapi.script_logic.start_dev
+sapi.script_logic.start_dev.start()

@@ -13,3 +13,6 @@ def _default_csr_hooks_factory(client_hash, public_key_hash, csr_tuple):
             csr_tuple)
 
 API_CSR_HOOKS_FACTORY = _default_csr_hooks_factory
+
+_logger.debug("Importing custom API hooks (required).")
+from sapi_custom_ca.api import *

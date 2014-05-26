@@ -38,4 +38,4 @@ def new_selfsigned_cert(issuer_name, passphrase, validity_td, bits=2048,
                 passphrase=passphrase,
                 is_ca=is_ca)
 
-    return (private_key_pem, public_key_pem, cert_pem)
+    return (private_key_pem, public_key_pem, csr_pem, cert_pem)

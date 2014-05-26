@@ -51,10 +51,9 @@ def start():
     print("Generating CA identity.")
 
     identity = sapi.ssl.ca.generate_ca_identity(name, validity)
-    (ca_private_key_pem, ca_public_key_pem, ca_cert_pem) = identity
 
     try:
-        sapi.ssl.ca.write_identity(ca_private_key_pem, ca_public_key_pem, ca_cert_pem)
+        sapi.ssl.ca.write_identity(*identity)
     except sapi.exceptions.CaUpdateCancelledException:
         print("CA identity update cancelled.")
         sys.exit(1)

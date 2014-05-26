@@ -136,7 +136,8 @@ def generate_ca_identity(name, validity_td):
             bits=sapi.config.ca.BITS, 
             is_ca=True)
 
-def write_identity(ca_private_key_pem, ca_public_key_pem, ca_cert_pem):
+def write_identity(ca_private_key_pem, ca_public_key_pem, ca_csr_pem,
+                   ca_cert_pem):
     """Write identity files."""
 
     private_key_filepath = os.path.join(
@@ -147,18 +148,24 @@ def write_identity(ca_private_key_pem, ca_public_key_pem, ca_cert_pem):
                             sapi.config.ca.CA_PATH, 
                             sapi.config.ca.FILENAME_PEM_PUBLIC_KEY)
 
+    csr_filepath = os.path.join(
+                    sapi.config.ca.CA_PATH, 
+                    sapi.config.ca.FILENAME_PEM_CSR)
+
     certificate_filepath = os.path.join(
                             sapi.config.ca.CA_PATH, 
                             sapi.config.ca.FILENAME_PEM_CERTIFICATE)
 
     if os.path.exists(private_key_filepath) is True or \
        os.path.exists(public_key_filepath) is True or \
+       os.path.exists(csr_filepath) is True or \
        os.path.exists(certificate_filepath) is True:
         print("One or more of the following identity files is about to be "
               "overwritten:\n")
 
         print("CA private key: %s" % (private_key_filepath))
         print("CA public key: %s" % (public_key_filepath))
+        print("CA csr: %s" % (csr_filepath))
         print("CA certificate: %s" % (certificate_filepath))
 
         print("\nAre you sure that you'd like to do this?")
@@ -185,6 +192,11 @@ def write_identity(ca_private_key_pem, ca_public_key_pem, ca_cert_pem):
 
     with open(public_key_filepath, 'w') as f:
         f.write(ca_public_key_pem)
+
+    _logger.info("Writing CA PEM CSR: %s", csr_filepath)
+
+    with open(csr_filepath, 'w') as f:
+        f.write(ca_csr_pem)
 
     _logger.info("Writing CA PEM certificate: %s", certificate_filepath)
 

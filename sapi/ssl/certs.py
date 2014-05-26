@@ -23,8 +23,6 @@ def new_cert(ca_private_key_pem, csr_pem, validity_td, issuer_name, bits=2048,
     def callback(*args):
         pass
 
-#    ca_rsa = M2Crypto.RSA.gen_key(bits, 65537, callback)
-
     csr = sapi.ssl.utility.pem_csr_to_csr(csr_pem)
 
     public_key = csr.get_pubkey()
@@ -37,7 +35,6 @@ def new_cert(ca_private_key_pem, csr_pem, validity_td, issuer_name, bits=2048,
         sn = int(sn, 16)
 
     cert.set_serial_number(sn)
-    
     cert.set_subject(name)
 
     now_epoch = long(time.time())
@@ -54,9 +51,8 @@ def new_cert(ca_private_key_pem, csr_pem, validity_td, issuer_name, bits=2048,
     cert.set_issuer(issuer_name)
     cert.set_pubkey(public_key) 
 
-    if is_ca is True:
-        ext = M2Crypto.X509.new_extension('basicConstraints', 'CA:TRUE')
-        cert.add_ext(ext)
+    ext = M2Crypto.X509.new_extension('basicConstraints', 'CA:' + str(is_ca).upper())
+    cert.add_ext(ext)
 
     pkey = M2Crypto.EVP.PKey()
     pkey.assign_rsa(ca_rsa)

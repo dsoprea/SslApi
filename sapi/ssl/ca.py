@@ -33,6 +33,11 @@ def _get_passphrase():
                           "available from the environment: [%s]).", 
                           _CA_PASSPHRASE_ENV_NAME)
 
+            if sys.stdout.isatty() is False:
+                raise EnvironmentError("A passphrase was not found in the "
+                                       "environment, and we're not running in "
+                                       "a terminal.")
+
             sys.stderr.write('\n')
 
             prompt = "CA passphrase for key: "

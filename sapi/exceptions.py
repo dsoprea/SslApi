@@ -7,7 +7,7 @@ class ApiException(SapiException):
 class ApiError(ApiException):
     pass
 
-class CsrSignError(ApiError):
+class CsrNotAuthedError(ApiError):
     pass
 
 class CaUpdateCancelledException(SapiException):

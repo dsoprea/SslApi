@@ -74,7 +74,7 @@ class CsrApi(object):
 
         try:
             validity_td = hooks.authorize(subject_alt_name_exts)
-        except sapi.exceptions.CsrSignError as e:
+        except sapi.exceptions.CsrNotAuthedError as e:
             _logger.warn("Signing has been refused for CSR with public-key "
                          "[%s]: %s", 
                          public_key_hash, e)

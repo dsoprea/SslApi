@@ -9,3 +9,4 @@
 /ssl_api.egg-info/
 /build/
 /.DS_Store
+*.pyc

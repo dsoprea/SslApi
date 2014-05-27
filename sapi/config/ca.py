@@ -27,12 +27,15 @@ SERIAL_NUMBER_GENERATOR_CB = lambda: \
                                 hashlib.sha1(str(time.time())).\
                                     hexdigest()
 
+CUSTOM_BOOT_CB = lambda: None
+
 try:
     from sapi_custom_ca.ca import *
 except ImportError:
     _logger.debug("Custom functionality not found (CA).")
 else:
     _logger.debug("Custom functionality found (CA).")
+    CUSTOM_BOOT_CB()
 
 _logger.info("CA PATH: %s", CA_PATH)
 

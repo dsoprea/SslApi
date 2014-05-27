@@ -3,6 +3,7 @@ import os.path
 import logging
 import hashlib
 import time
+import random
 
 _logger = logging.getLogger(__name__)
 
@@ -24,7 +25,7 @@ _logger.debug("Importing custom API hooks (CA, optional).")
 # Technically, this should be unique to the CA. SHA1 will be sufficient as a 
 # default implementation.
 SERIAL_NUMBER_GENERATOR_CB = lambda: \
-                                hashlib.sha1(str(time.time())).\
+                                hashlib.sha1(str(time.time()) + str(random.random())).\
                                     hexdigest()
 
 CUSTOM_BOOT_CB = lambda: None

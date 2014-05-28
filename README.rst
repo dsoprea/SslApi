@@ -1,3 +1,20 @@
+.. image:: https://pypip.in/d/ssl_api/badge.png
+    :target: https://pypi.python.org/pypi/ssl_api/
+    :alt: Downloads
+
+.. image:: https://pypip.in/v/ssl_api/badge.png
+    :target: https://pypi.python.org/pypi/ssl_api/
+    :alt: Latest version
+
+.. image:: https://pypip.in/wheel/ssl_api/badge.png
+    :target: https://pypi.python.org/pypi/ssl_api/
+    :alt: Wheel Status
+
+.. image:: https://pypip.in/license/ssl_api/badge.png
+    :target: https://pypi.python.org/pypi/ssl_api/
+    :alt: License
+
+
 Overview
 --------
 

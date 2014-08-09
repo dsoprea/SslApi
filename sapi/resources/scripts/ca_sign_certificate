@@ -6,5 +6,5 @@ import os.path
 dev_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.insert(0, dev_path)
 
-import sapi.script_logic.ca_sign_subordinate
-sapi.script_logic.ca_sign_subordinate.start()
+import sapi.script_logic.ca_sign_certificate
+sapi.script_logic.ca_sign_certificate.start()

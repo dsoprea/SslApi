@@ -1,1 +1,4 @@
 recursive-include sapi/resources/data gunicorn.conf.*
+recursive-include sapi/resources README.rst
+recursive-include sapi/resources requirements.txt
+

@@ -16,7 +16,7 @@ import sapi.ssl.utility
 _logger = logging.getLogger(__name__)
 
 def start():
-    description = "Sign subordinate CSR."
+    description = "Sign certificate CSR."
 
     parser = argparse.ArgumentParser(description=description)
 

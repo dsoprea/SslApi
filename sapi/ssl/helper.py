@@ -20,16 +20,6 @@ def new_selfsigned_cert(issuer_name, passphrase, validity_td, bits=2048,
                 issuer_name, 
                 passphrase=passphrase)
 
-#    issuer_name = M2Crypto.X509.X509_Name()
-#
-## TODO(dustin): We're still waiting for a response on whether setting 
-##               issuer-subject==request-subject is reasonable.
-#    issuer_name.C = name.C
-#    issuer_name.ST = name.ST
-#    issuer_name.L = name.L
-#    issuer_name.O = name.O
-#    issuer_name.CN = name.CN
-
     cert_pem = sapi.ssl.certs.new_cert(
                 private_key_pem, 
                 csr_pem, 

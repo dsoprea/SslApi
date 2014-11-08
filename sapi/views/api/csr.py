@@ -13,6 +13,7 @@ import OpenSSL.crypto
 #import pyasn1_modules.rfc2314
 #import pyasn1_modules.rfc2459
 
+import sapi.config.log
 import sapi.config.api.server
 import sapi.config.ca
 import sapi.exceptions
@@ -43,18 +44,29 @@ class CsrApi(object):
         #
         #   DNS:www.foo.com, DNS:www.bar.org, IP Address:192.168.1.1, IP Address:192.168.69.144, email:email@me
         #
+        # Unfortunately, the pyOpenSSL guy hasn't released a version with this 
+        # in it due to one bug that he's not even trying to fix, and we've been 
+        # waiting ten-months for it. So, we allow it to not exist.
+        #
+        # https://github.com/pyca/pyopenssl/issues/109
 
-        p = re.compile('^([a-zA-Z ]+:[^,]+, )+[a-zA-Z ]+:.+$')
-        i = 0
         subject_alt_name_exts = []
-        for extension in csr_o.get_extensions():
-            e = str(extension)
-            if p.match(e) is None:
-                continue
 
-            parts = [phrase.split(':') for phrase in e.split(', ')]
+        try:
+            csr_o.get_extensions
+        except AttributeError:
+            pass
+        else:
+            p = re.compile('^([a-zA-Z ]+:[^,]+, )+[a-zA-Z ]+:.+$')
 
-            subject_alt_name_exts.append(parts)
+            for extension in csr_o.get_extensions():
+                e = str(extension)
+                if p.match(e) is None:
+                    continue
+
+                parts = [phrase.split(':') for phrase in e.split(', ')]
+
+                subject_alt_name_exts.append(parts)
 
         # Calculate a hash that can be used to refer to this CSR with the 
         # callbacks.

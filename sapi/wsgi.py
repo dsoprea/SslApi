@@ -1,8 +1,8 @@
 import logging
 
+import sapi.config.log
 import sapi.app.main
 import sapi.ssl.ca
-import sapi.config.log
 
 _logger = logging.getLogger(__name__)
 

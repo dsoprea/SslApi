@@ -17,6 +17,6 @@ API_CSR_HOOKS_FACTORY = _default_csr_hooks_factory
 try:
     from sapi_custom_ca.api import *
 except ImportError:
-    _logger.debug("Custom functionality not found (server).")
+    _logger.debug("Custom functionality not found (server): sapi_custom_ca.api")
 else:
     _logger.debug("Custom functionality found (server).")

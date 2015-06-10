@@ -7,4 +7,4 @@ daemon = 'true'
 bind = 'unix:/tmp/ssl_api.gunicorn.sock'
 
 errorlog = '/var/log/ssl_api.log'
-loglevel = 'info'
+loglevel = 'warning'

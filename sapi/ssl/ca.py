@@ -70,8 +70,6 @@ class _CA(object):
     """
 
     def __init__(self):
-        _logger.debug("Loading CA: %s", sapi.config.ca.CA_PATH)
-
         self.__passphrase = _get_passphrase()
 
 # TODO(dustin): We've had garbage-collection/memory issues with creating the 
@@ -81,12 +79,18 @@ class _CA(object):
                                 sapi.config.ca.CA_PATH, 
                                 sapi.config.ca.FILENAME_PEM_CERTIFICATE)
 
+        _logger.debug("Loading CA certificate: [%s]", 
+                      pem_cert_filepath)
+
         with open(pem_cert_filepath) as f:
             self.__ca_cert_pem = f.read()
 
         pem_private_key_filepath = os.path.join(
                                     sapi.config.ca.CA_PATH, 
                                     sapi.config.ca.FILENAME_PEM_PRIVATE_KEY)
+
+        _logger.debug("Loading CA private-key: [%s]", 
+                      pem_private_key_filepath)
 
         with open(pem_private_key_filepath) as f:
             self.__ca_private_key_pem = f.read()

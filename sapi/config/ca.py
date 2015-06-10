@@ -10,7 +10,12 @@ _logger = logging.getLogger(__name__)
 FILENAME_PEM_PRIVATE_KEY = 'ca.private_key.pem'
 FILENAME_PEM_PUBLIC_KEY = 'ca.public_key.pem'
 FILENAME_PEM_CSR = 'ca.csr.pem'
-FILENAME_PEM_CERTIFICATE = 'ca.cert.pem'
+
+# TODO(dustin): This is for backwards compatibility (we prefer the first).
+FILENAME_PEM_CERTIFICATE_CANDIDATES = [
+    'ca.crt.pem',
+    'ca.cert.pem',
+]
 
 REQUIRED_DN_FIELDS = set(('C', 'ST', 'L', 'O', 'CN', 'emailAddress'))
 BITS = 2048

@@ -75,9 +75,23 @@ class _CA(object):
 # TODO(dustin): We've had garbage-collection/memory issues with creating the 
 #               RSA object here so that we don't keep having to reprocess the 
 #               PEM.
-        pem_cert_filepath = os.path.join(
-                                sapi.config.ca.CA_PATH, 
-                                sapi.config.ca.FILENAME_PEM_CERTIFICATE)
+
+        filename_candidates = \
+            sapi.config.ca.FILENAME_PEM_CERTIFICATE_CANDIDATES
+
+        pem_cert_filepath = None
+        for filename_candidate in filename_candidates:
+            filepath = os.path.join(
+                        sapi.config.ca.CA_PATH, 
+                        filename_candidate)
+
+            if os.path.exists(filepath) is True:
+                pem_cert_filepath = filepath
+                break
+
+        if pem_cert_filepath is None:
+            raise EnvironmentError("Could not find certificate. Candidates: "
+                                   "%s" % (filename_candidates,))
 
         _logger.debug("Loading CA certificate: [%s]", 
                       pem_cert_filepath)

@@ -36,9 +36,15 @@ def get_delta_from_validity_phrase(validity_phrase):
             validity_s = _translate_years_to_seconds(validity)
         elif suffix == 'd':
             validity_s = validity * 86400
-        elif suffix != 's':
+        elif suffix == 'h':
+            validity_s = validity * 3600
+        elif suffix == 'm':
+            validity_s = validity * 60
+        elif suffix == 's':
+            validity_s = validity
+        else:
             raise ValueError("Validity suffix [%s] not valid. Please use 's', "
-                             "'d', or 'y'.")
+                             "'m', 'h', 'd', or 'y'.")
     else:
         validity_s = _translate_years_to_seconds(validity_y)
 

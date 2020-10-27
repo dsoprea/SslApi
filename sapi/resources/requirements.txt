@@ -2,7 +2,7 @@ Jinja2==2.7.2
 M2Crypto==0.22.3
 MarkupSafe==0.21
 cffi==0.8.2
-cryptography==0.4
+cryptography==3.2
 gunicorn==19.1.0
 pyOpenSSL==0.14
 pyasn1==0.1.7
